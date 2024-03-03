@@ -1,0 +1,49 @@
+services:
+  prometheus:
+    restart: always
+    image: prom/prometheus:v2.50.1
+    container_name: prometheus
+    command:
+      - '--storage.tsdb.retention.time=7d'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - ./docker/prometheus/prometheus-config.yaml:/etc/prometheus/prometheus.yaml
+      - prometheus-data:/prometheus
+    # ports:
+      # - "9090:9090"
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.95.0
+    restart: always
+    command: [ "--config=/etc/otel-collector-config.yaml" ]
+    volumes:
+      - ./docker/otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    depends_on:
+      - prometheus
+
+  tempo:
+    image: grafana/tempo:latest
+    command: [ "-config.file=/etc/tempo-config.yml" ]
+    volumes:
+      - ./docker/tempo/tempo-config.yaml:/etc/tempo-config.yml
+      - tempo-data:/tmp/tempo
+    # ports:
+      # - "3200:3200"
+      # - "4317"
+
+  grafana:
+    restart: always
+    image: grafana/grafana:10.3.1
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=pass
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./docker/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+    depends_on:
+      - prometheus
+
+volumes:
+  prometheus-data:
+  tempo-data:

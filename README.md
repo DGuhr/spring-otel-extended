@@ -35,10 +35,12 @@ The Observability-Stack consists of:
 It is built using containers and compose for the sake of simplicity. It is tested using docker. I am happy to hear if it also works for podman and other container solutions.
 
 ## Running the stack
-You can start the stack simply by running `docker compose up --build` from the root directory of this repository. 
+You can start the stack simply by running `docker compose up --build -d` from the root directory of this repository. 
 
-The following endpoints are available:
+The following endpoints are available when the stack is started:
 * `official-auto-otel-animal-app`: Call [http://localhost:8081/animals](http://localhost:8081/animals) 
 * `aspect-based-otel-animal-app`: Call [http://localhost:8082/animals](http://localhost:8082/animals)
 * `extension-based-otel-animal-app`: Call [http://localhost:8083/animals](http://localhost:8083/animals)
 * `Grafana`: Call `http://localhost:3001` to access the dashboard. Prometheus and Tempo data sources are already added. Username and Password: `admin // pass`
+
+To stop the stack, call `docker compose down` - if you want to delete the existing data, use `docker compose down -v` to delete the named volumes.
