@@ -1,6 +1,7 @@
 # spring-otel-extended - Extending Springs instrumentation
 This repository provides multiple approaches to auto-instrument Spring and Spring Boot using the OpenTelemetry java agent and -Instrumentation.
 
+This is a Work in Progress for now. For current TODOs, see [TODOS](#todo) 
 ## Use Case
 At the time of writing this, when you use the OpenTelemetry Java Agent to auto-instrument a Spring-Application, your traces look like in the following picture:
 ![pic](assets/currentstate.png)
@@ -35,6 +36,9 @@ The Observability-Stack consists of:
 It is built using containers and compose for the sake of simplicity. It is tested using docker. I am happy to hear if it also works for podman and other container solutions.
 
 ## Running the stack
+
+First, build the respective modules using e.g. `mvn clean package` 
+
 You can start the stack simply by running `docker compose up --build -d` from the root directory of this repository. 
 
 The following endpoints are available when the stack is started:
@@ -44,3 +48,7 @@ The following endpoints are available when the stack is started:
 * `Grafana`: Call `http://localhost:3001` to access the dashboard. Prometheus and Tempo data sources are already added. Username and Password: `admin // pass`
 
 To stop the stack, call `docker compose down` - if you want to delete the existing data, use `docker compose down -v` to delete the named volumes.
+
+## TODO
+- Get the custom java agent extension to work.
+- use gradle / maven multi-module to make building the apps more convenient (contribution welcome)

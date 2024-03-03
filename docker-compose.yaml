@@ -9,8 +9,6 @@ services:
     volumes:
       - ./docker/prometheus/prometheus-config.yaml:/etc/prometheus/prometheus.yaml
       - prometheus-data:/prometheus
-    # ports:
-      # - "9090:9090"
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.95.0
@@ -27,9 +25,6 @@ services:
     volumes:
       - ./docker/tempo/tempo-config.yaml:/etc/tempo-config.yml
       - tempo-data:/tmp/tempo
-    # ports:
-      # - "3200:3200"
-      # - "4317"
 
   grafana:
     restart: always
@@ -44,6 +39,42 @@ services:
     depends_on:
       - prometheus
 
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: animaldb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "10006:3306"
+    volumes:
+      - ./docker/mariadb/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - mariadb-data:/var/lib/mysql
+
+  official-auto-otel-animal-app:
+    restart: always
+    build:
+      context: ./official-auto-otel-animal-app
+      dockerfile: Dockerfile
+    container_name: official-auto-otel-animal-app
+    env_file:
+      - ./docker/otel-service-config.env
+    environment:
+      - OTEL_SERVICE_NAME=official-auto-otel-animal-app
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/animaldb
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+    depends_on:
+      - mariadb
+    ports:
+      - "8081:8080"
+
 volumes:
   prometheus-data:
   tempo-data:
+  mariadb-data:
