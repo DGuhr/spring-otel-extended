@@ -94,6 +94,26 @@ services:
     ports:
       - "8082:8080"
 
+  extension-based-otel-animal-app:
+    restart: always
+    build:
+      context: ./extension-based-otel-animal-app
+      dockerfile: Dockerfile
+    container_name: extension-based-otel-animal-app
+    env_file:
+      - ./docker/otel-service-config.env
+    environment:
+      - OTEL_SERVICE_NAME=extension-based-otel-animal-app
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/animaldb
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+    depends_on:
+      - mariadb
+    ports:
+      - "8083:8080"
+
 volumes:
   prometheus-data:
   tempo-data:

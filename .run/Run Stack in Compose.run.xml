@@ -10,6 +10,7 @@
     <method v="2">
       <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/aspect-based-otel-animal-app/pom.xml" goal="clean package" />
       <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/official-auto-otel-animal-app//pom.xml" goal="clean package" />
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/otel-javaagent-spring-extension//pom.xml" goal="clean install" />
     </method>
   </configuration>
 </component>

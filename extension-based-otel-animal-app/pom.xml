@@ -11,10 +11,10 @@
         <relativePath/>
     </parent>
 
-    <groupId>org.acme2</groupId>
-    <artifactId>aspect-based-otel-animal-app</artifactId>
+    <groupId>org.acme3</groupId>
+    <artifactId>extension-based-otel-animal-app</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>aspect-based-otel-animal-app</name>
+    <name>extension-based-otel-animal-app</name>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -39,16 +39,6 @@
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>3.3.3</version>
-        </dependency>
-        <!-- OTEL aspect-related dependencies -->
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-api</artifactId>
-            <version>1.34.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
     </dependencies>
 
