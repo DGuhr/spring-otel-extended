@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Stack in Compose" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker Desktop">
+    <deployment type="docker-compose.yml">
+      <settings>
+        <option name="envFilePath" value="" />
+        <option name="commandLineOptions" value="--build" />
+        <option name="sourceFilePath" value="docker-compose.yaml" />
+      </settings>
+    </deployment>
+    <method v="2">
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/aspect-based-otel-animal-app/pom.xml" goal="clean package" />
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/official-auto-otel-animal-app//pom.xml" goal="clean package" />
+    </method>
+  </configuration>
+</component>
