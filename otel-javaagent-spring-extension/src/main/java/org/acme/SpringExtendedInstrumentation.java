@@ -36,7 +36,7 @@ public class SpringExtendedInstrumentation implements TypeInstrumentation {
     @Override
     public void transform(TypeTransformer typeTransformer) {
         logger.info("TEST transform");
-        typeTransformer.applyAdviceToMethod(isPublic(), "$SpringBeanAdvice");
+        typeTransformer.applyAdviceToMethod(isPublic(), this.getClass().getName()+"$SpringBeanAdvice");
     }
 
     @SuppressWarnings("unused")
