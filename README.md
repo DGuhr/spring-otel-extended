@@ -6,7 +6,7 @@ This is a Work in Progress for now. For current TODOs, see [TODOS](#todo)
 At the time of writing this, when you use the OpenTelemetry Java Agent to auto-instrument a Spring-Application, your traces look like in the following picture:
 ![pic](assets/currentstate.png)
 
-This is a fine Trace, but there might be something missing in the "in between", and especially for bigger (often: over-abstracted / over-architected legacy) apps, such a trace can be very hard to read, because it usually consists of way more database calls, sp you have one /GET call and then, say, 10s of DB calls, and then another POST call to a downstream service... and so on.
+This is a fine Trace, but there might be something missing in the "in between", and especially for bigger (often: over-abstracted / over-architected legacy) apps, such a trace can be very hard to read, because it usually consists of way more database calls, so you have one /GET call and then, say, 10s of DB calls, and then another POST call to a downstream service... and so on.
 
 The idea here is to show the intermediate, Spring-annotated steps like in the following picture:
 
@@ -20,11 +20,12 @@ Alternatively, one could surely use tools like the great [Grafana Pyroscope](htt
 
 ## Overview
 
-This repository consists of 3 services:
+This repository consists of 5 services:
 1) `official-auto-otel-animal-app`: A Spring Boot-Application with an example structure using `@Component`,`@Service` and `@Repository`.
 2) `aspect-based-otel-animal-app`: The same App as 1), but using Springs AOP to add Spans to all public methods for the intermediate Layers.
 3) `otel-javaagent-spring-extension`: An OpenTelemetry Java-Agent [Extension](https://opentelemetry.io/docs/languages/java/automatic/extensions/) that extends the official agent capabilities to record the intermediate spans.
 4) `extension-based-otel-animal-app`: An app that uses the Java agent extension from 3) to provide the same functionality as the aspect solution, without "touching the code".
+5) `legacy-tomcat-spring-app`: (WIP, not working) - The same applictaion, but  running on a legacy spring 5 stack (plain, without spring boot) to check if it works on application servers (tomcat9, jdk11)
 
 ## Packaging 
 The Observability-Stack consists of: 
@@ -45,6 +46,7 @@ The following endpoints are available when the stack is started:
 * `official-auto-otel-animal-app`: Call [http://localhost:8081/animals](http://localhost:8081/animals) 
 * `aspect-based-otel-animal-app`: Call [http://localhost:8082/animals](http://localhost:8082/animals)
 * `extension-based-otel-animal-app`: Call [http://localhost:8083/animals](http://localhost:8083/animals)
+* `legacy-tomcat-spring-app`: Call [http://localhost:8084/animals](http://localhost:8083/animals)
 * `Grafana`: Call `http://localhost:3001` to access the dashboard. Prometheus and Tempo data sources are already added. Username and Password: `admin // pass`
 
 To stop the stack, call `docker compose down`. 
@@ -52,8 +54,9 @@ To stop the stack, call `docker compose down`.
 If you want to delete the existing data, use `docker compose down -v` to delete the named volumes.
 
 ## TODO
+- Add Spring legacy example 
 - use gradle / maven multi-module to make building the apps more convenient (contribution welcome)
-- ...?
+
 
 # DONE
 - Get the custom java agent extension for complemental spring spans to work. 🥳

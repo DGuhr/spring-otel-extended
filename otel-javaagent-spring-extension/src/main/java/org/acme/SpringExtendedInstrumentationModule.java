@@ -17,7 +17,7 @@ import static java.util.Collections.singletonList;
 
 @AutoService(InstrumentationModule.class)
 public final class SpringExtendedInstrumentationModule extends InstrumentationModule {
-    private static Logger logger = Logger.getLogger(SpringExtendedInstrumentation.class.getName());
+    private static Logger logger = Logger.getLogger(SpringExtendedInstrumentationModule.class.getName());
 
     public SpringExtendedInstrumentationModule() {
         super("spring-extended", "springextended");

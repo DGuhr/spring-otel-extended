@@ -114,6 +114,24 @@ services:
     ports:
       - "8083:8080"
 
+  legacy-tomcat-spring-app:
+    restart: always
+    build:
+      context: ./legacy-tomcat-spring-app
+      dockerfile: Dockerfile
+    container_name: legacy-tomcat-spring-app
+    env_file:
+      - ./docker/otel-service-config.env
+    environment:
+      - OTEL_SERVICE_NAME=legacy-tomcat-spring-app
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+    entrypoint: [ "catalina.sh", "run" ]
+    ports:
+      - "8084:8080"
+
 volumes:
   prometheus-data:
   tempo-data:
