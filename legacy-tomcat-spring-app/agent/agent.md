@@ -1,1 +1,1 @@
-The agent is built in module `otel-javaagent-spring-extension` and moved here to use in the Dockerfile for demo purposes.
+The agent is built in module `otel-javaagent-spring-extension` and moved here to use in the Dockerfile for demo purposes. Keep in mind to switch compiler source/target to 11 for use with this legacy stack.

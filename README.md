@@ -25,9 +25,9 @@ This repository consists of 5 services:
 2) `aspect-based-otel-animal-app`: The same App as 1), but using Springs AOP to add Spans to all public methods for the intermediate Layers.
 3) `otel-javaagent-spring-extension`: An OpenTelemetry Java-Agent [Extension](https://opentelemetry.io/docs/languages/java/automatic/extensions/) that extends the official agent capabilities to record the intermediate spans.
 4) `extension-based-otel-animal-app`: An app that uses the Java agent extension from 3) to provide the same functionality as the aspect solution, without "touching the code".
-5) `legacy-tomcat-spring-app`: (WIP, not working) - The same applictaion, but  running on a legacy spring 5 stack (plain, without spring boot) to check if it works on application servers (tomcat9, jdk11)
+5) `legacy-tomcat-spring-app`: (More or less) the same applictaion, but running on a legacy spring 5 stack (plain, without spring boot) on tomcat 9 and jdk11. It also uses the custom java agent extension.
 
-## Packaging 
+## Observability stack in docker 
 The Observability-Stack consists of: 
 * The apps, packaged as containers
 * An OpenTelemetry Collector where the signals are sent to
@@ -38,9 +38,11 @@ It is built using containers and compose for the sake of simplicity. It is teste
 
 ## Running the stack
 
-First, build the respective modules using e.g. `mvn clean package` in each of the 4 modules (see [TODO](#todo))
+First, build the respective modules using e.g. `mvn clean package` in each of the modules (see [TODO](#todo))
 
-You can start the stack simply by running `docker compose up --build -d` from the root directory of this repository. 
+**Note**: If you want to build the javaagent extension for use with the legacy app, you have to change the maven properties `<maven.compiler.source>` and `<maven.compiler.target>` to use 11 instead of 21. Without changing this, the extension does not get picked up by the classloader.
+
+You can start the stack simply by running `docker compose up --build -d` from the root directory of this repository. I added the pre-built `otel-javaagent-spring-extension-jdk11-1.0-SNAPSHOT.jar` for convenience reasons directly to the `legacy-tomcat-spring-app/agent` directory in this repository.
 
 The following endpoints are available when the stack is started:
 * `official-auto-otel-animal-app`: Call [http://localhost:8081/animals](http://localhost:8081/animals) 
@@ -54,9 +56,9 @@ To stop the stack, call `docker compose down`.
 If you want to delete the existing data, use `docker compose down -v` to delete the named volumes.
 
 ## TODO
-- Add Spring legacy example 
 - use gradle / maven multi-module to make building the apps more convenient (contribution welcome)
 
 
 # DONE
 - Get the custom java agent extension for complemental spring spans to work. 🥳
+- Add Spring legacy example with agent extension 🎊

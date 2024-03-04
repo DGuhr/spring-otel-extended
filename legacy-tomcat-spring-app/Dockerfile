@@ -11,7 +11,7 @@ RUN rm -rf /usr/local/tomcat/webapps
 COPY --from=downloader /app/opentelemetry-javaagent.jar /usr/local/tomcat/lib/opentelemetry-javaagent.jar
 
 COPY target/*.war /usr/local/tomcat/webapps/ROOT.war
-COPY agent/otel-javaagent-spring-extension-1.0-SNAPSHOT.jar /usr/local/tomcat/lib/spring-extension.jar
+COPY agent/otel-javaagent-spring-extension-jdk11-1.0-SNAPSHOT.jar /usr/local/tomcat/lib/spring-extension.jar
 COPY setenv.sh /usr/local/tomcat/bin/setenv.sh
 EXPOSE 8080
 

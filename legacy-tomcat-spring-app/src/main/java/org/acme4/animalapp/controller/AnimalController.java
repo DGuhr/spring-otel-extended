@@ -22,6 +22,9 @@ public class AnimalController {
 
     @GetMapping()
     public ResponseEntity<List<Animal>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(animalComponent.getAnimalsFromFooService());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(animalComponent.getAnimalsFromFooService());
     }
 }
