@@ -1,5 +1,5 @@
 # spring-otel-extended - Extending Springs instrumentation
-This repository provides multiple approaches to auto-instrument Spring and Spring Boot using the OpenTelemetry java agent and -Instrumentation.
+This repository provides multiple approaches to (auto)-instrument Spring and Spring Boot using the OpenTelemetry java agent and -Instrumentation.
 
 This is a Work in Progress for now. For current TODOs, see [TODOS](#todo) 
 ## Use Case
@@ -22,9 +22,9 @@ Alternatively, one could surely use tools like the great [Grafana Pyroscope](htt
 
 This repository consists of 3 services:
 1) `official-auto-otel-animal-app`: A Spring Boot-Application with an example structure using `@Component`,`@Service` and `@Repository`.
-2) `aspect-based-otel-animal-app`: The same App as 1), but using Springs AOP to add Spans to all public methods for the intermediate Steps.
-3) `otel-javaagent-spring-extension` **WIP - currently not working:** An OpenTelemetry Java-Agent [Extension](https://opentelemetry.io/docs/languages/java/automatic/extensions/) that extends the official agent capabilities to record the intermediate spans.
-4) `extension-based-otel-animal-app`: An app that uses the Java agent extension from 3) to auto-instrument the code. The outcome should be the same as for the aspect-based app. 
+2) `aspect-based-otel-animal-app`: The same App as 1), but using Springs AOP to add Spans to all public methods for the intermediate Layers.
+3) `otel-javaagent-spring-extension`: An OpenTelemetry Java-Agent [Extension](https://opentelemetry.io/docs/languages/java/automatic/extensions/) that extends the official agent capabilities to record the intermediate spans.
+4) `extension-based-otel-animal-app`: An app that uses the Java agent extension from 3) to provide the same functionality as the aspect solution, without "touching the code".
 
 ## Packaging 
 The Observability-Stack consists of: 
@@ -37,7 +37,7 @@ It is built using containers and compose for the sake of simplicity. It is teste
 
 ## Running the stack
 
-First, build the respective modules using e.g. `mvn clean package` 
+First, build the respective modules using e.g. `mvn clean package` in each of the 4 modules (see [TODO](#todo))
 
 You can start the stack simply by running `docker compose up --build -d` from the root directory of this repository. 
 
@@ -47,8 +47,13 @@ The following endpoints are available when the stack is started:
 * `extension-based-otel-animal-app`: Call [http://localhost:8083/animals](http://localhost:8083/animals)
 * `Grafana`: Call `http://localhost:3001` to access the dashboard. Prometheus and Tempo data sources are already added. Username and Password: `admin // pass`
 
-To stop the stack, call `docker compose down` - if you want to delete the existing data, use `docker compose down -v` to delete the named volumes.
+To stop the stack, call `docker compose down`. 
+
+If you want to delete the existing data, use `docker compose down -v` to delete the named volumes.
 
 ## TODO
-- Get the custom java agent extension to work.
 - use gradle / maven multi-module to make building the apps more convenient (contribution welcome)
+- ...?
+
+# DONE
+- Get the custom java agent extension for complemental spring spans to work. 🥳

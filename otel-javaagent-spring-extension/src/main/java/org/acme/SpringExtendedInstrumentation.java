@@ -36,17 +36,20 @@ public class SpringExtendedInstrumentation implements TypeInstrumentation {
     @Override
     public void transform(TypeTransformer typeTransformer) {
         logger.info("TEST transform");
-        typeTransformer.applyAdviceToMethod(isPublic(), this.getClass().getName()+"$SpringBeanAdvice");
+        typeTransformer.applyAdviceToMethod(isPublic().and(isMethod()), this.getClass().getName()+"$SpringBeanAdvice");
     }
 
     @SuppressWarnings("unused")
     public static class SpringBeanAdvice {
         @Advice.OnMethodEnter(suppress = Throwable.class)
-        public static Scope onEnter(@Advice.Origin Method method, @Advice.Local("otelSpan") Span span, @Advice.Local("otelScope") Scope scope) {
+        public static Scope onEnter(@Advice.Origin Method method,
+                                    @Advice.Local("otelSpan") Span span,
+                                    @Advice.Local("otelScope") Scope scope) {
             // Get a Tracer instance from OpenTelemetry.
-            Tracer tracer = GlobalOpenTelemetry.getTracer("instrumentation-library-name", "semver:1.0.0");
+            Tracer tracer = GlobalOpenTelemetry.getTracer("spring-extended", "semver:1.0.0");
 
             String methodName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
+            // create a new span
             span = tracer.spanBuilder(methodName).startSpan();
             // Make this new span the current active span.
             scope = span.makeCurrent();
@@ -56,7 +59,10 @@ public class SpringExtendedInstrumentation implements TypeInstrumentation {
         }
 
         @Advice.OnMethodExit(onThrowable = Throwable.class, suppress = Throwable.class)
-        public static void onExit(@Advice.Local("otelSpan") Span span, @Advice.Local("otelScope") Scope scope, @Advice.Thrown Throwable throwable) {
+        public static void onExit(@Advice.Local("otelSpan") Span span,
+                                  @Advice.Local("otelScope") Scope scope,
+                                  @Advice.Thrown Throwable throwable) {
+
             //close the scope to end it
             scope.close();
 

@@ -1,0 +1,1 @@
+The agent is built in module `otel-javaagent-spring-extension` and moved here to use in the Dockerfile for demo purposes.
