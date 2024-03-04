@@ -14,7 +14,7 @@ The idea here is to show the intermediate, Spring-annotated steps like in the fo
 
 This is actually the same operation that was done in the first picture, but now we see the chain of callers, so it is possible to really understand what part of your app did the database calls.
 
-I know that this leads to the generation of many spans and is therefore not added to the official auto-instrumentation, see the [the otel issue](https://github.com/open-telemetry/opentelemetry-java-instrumentation/issues/2574). So, it might not be suitable in production telemetry, but it certainly helped me a lot to understand the inner workings of unknown/legacy spring and spring boot codebases, where those traces consist of 30+ spans, lots of them looking like random database queries. 
+I know that this leads to the generation of many spans and is therefore not added to the official auto-instrumentation, see [the otel issue](https://github.com/open-telemetry/opentelemetry-java-instrumentation/issues/2574). So, it might not be suitable in production telemetry, but it certainly helped me a lot to understand the inner workings of unknown/legacy spring and spring boot codebases, where those traces consist of 30+ spans, lots of them looking like random database queries. 
 
 Alternatively, one could surely use tools like the great [Grafana Pyroscope](https://github.com/grafana/pyroscope) continuous profiling tool to achieve the same, but the solutions shown in this repository feel more lightweight to me, as I simply do not need to spin up and maintain another component and integrate another agent to achieve a more high-resolution look into the application.
 
@@ -34,6 +34,7 @@ The Observability-Stack consists of:
 * Prometheus for metrics 
 * Tempo for Traces
 * Grafana for visualization
+
 It is built using containers and compose for the sake of simplicity. It is tested using docker. I am happy to hear if it also works for podman and other container solutions.
 
 ## Running the stack
